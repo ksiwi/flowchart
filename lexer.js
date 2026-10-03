@@ -14,7 +14,7 @@ class Lexer {
     }
 
     currentChar() {
-        return input[position];
+        return this.input[this.position];
     }
 
     parseWord() {

@@ -21,3 +21,28 @@ p {
   margin-top: 16px;
   cursor: pointer;
 }
+
+.flowchart {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 800px;
+  gap: 50px;
+  padding-top: 50px;
+  background-color: rgb(221, 221, 221);
+}
+
+.flowchart-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 150px;
+  height: 80px;
+  border: 1px solid black;
+}
+
+.branch {
+  display: flex;
+  gap: 20px;
+}
+

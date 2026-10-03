@@ -6,6 +6,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Flowchart Visualizer</title>
   <link rel="stylesheet" href="index.css">
+  <script type="importmap">
+    {
+      "imports": {
+        "@lezer/python": "https://esm.sh/@lezer/python@1.1.19"
+      }
+    }
+  </script>
 </head>
 
 <body>
@@ -34,6 +41,6 @@
   
 </body>
 
-<script src="dist/parser.bundle.js"></script>
+<script type="module" src="parser.js"></script>
 
 </html>

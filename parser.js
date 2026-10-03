@@ -18,22 +18,27 @@ button.addEventListener("click", function() {
 });
 
 // Helper function for debugging.
-function printTree(cursor, indent = 0) {
-    let output = "";
+function printTree(cursor, indent = 0, lines = []) {
+    const line = " ".repeat(indent) + cursor.name;
+    lines.push(line);
+    console.log(line);
 
-    output += " ".repeat(indent) + cursor.name + "\n";
+    if(cursor.firstChild()) {
 
-    if (cursor.firstChild()) {
+        do{
 
-        do {
-            output += printTree(cursor, indent + 4);
-        } while (cursor.nextSibling());
+            printTree(cursor, indent + 4, lines);
+            
+        } while(cursor.nextSibling());
 
         cursor.parent();
+        
     }
 
-    return output;
+    return lines.join("\n");
+
 }
+
 
 /*
 const code = `

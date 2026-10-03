@@ -7,6 +7,24 @@ function getUserInput() {
 
 }
 
+function printTree(cursor, indent = 0) {
+
+    console.log(" ".repeat(indent) + cursor.name);
+
+    if(cursor.firstChild()) {
+
+        do{
+
+            printTree(cursor, indent + 4);
+            
+        } while(cursor.nextSibling());
+
+        cursor.parent();
+        
+    }
+
+}
+
 const code = `
 x = 67
 if(x < 69):
@@ -17,4 +35,4 @@ else:
 ;
 
 const tree = parser.parse(code);
-console.log(tree)
+printTree(tree.cursor());

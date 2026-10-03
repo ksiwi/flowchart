@@ -52,8 +52,8 @@
   NodeProp.lookAhead = new NodeProp({ perNode: true });
   NodeProp.mounted = new NodeProp({ perNode: true });
   var MountedTree = class {
-    constructor(tree2, overlay, parser2, bracketed2 = false) {
-      this.tree = tree2;
+    constructor(tree, overlay, parser2, bracketed2 = false) {
+      this.tree = tree;
       this.overlay = overlay;
       this.parser = parser2;
       this.bracketed = bracketed2;
@@ -61,8 +61,8 @@
     /**
     @internal
     */
-    static get(tree2) {
-      return tree2 && tree2.props && tree2.props[NodeProp.mounted.id];
+    static get(tree) {
+      return tree && tree.props && tree.props[NodeProp.mounted.id];
     }
   };
   var noProps = /* @__PURE__ */ Object.create(null);
@@ -881,8 +881,8 @@
       return iterStack(this.heads);
     }
   };
-  function stackIterator(tree2, pos, side) {
-    let inner = tree2.resolveInner(pos, side), layers = null;
+  function stackIterator(tree, pos, side) {
+    let inner = tree.resolveInner(pos, side), layers = null;
     for (let scan = inner instanceof TreeNode ? inner : inner.context.parent; scan; scan = scan.parent) {
       if (scan.index < 0) {
         let parent = scan.parent;
@@ -1238,8 +1238,8 @@
       return true;
     }
   };
-  function hasChild(tree2) {
-    return tree2.children.some((ch) => ch instanceof TreeBuffer || !ch.type.isAnonymous || hasChild(ch));
+  function hasChild(tree) {
+    return tree.children.some((ch) => ch instanceof TreeBuffer || !ch.type.isAnonymous || hasChild(ch));
   }
   function buildTree(data) {
     var _a;
@@ -2450,8 +2450,8 @@
   }
   var verbose = typeof process != "undefined" && process.env && /\bparse\b/.test(process.env.LOG);
   var stackIDs = null;
-  function cutAt(tree2, pos, side) {
-    let cursor = tree2.cursor(IterMode.IncludeAnonymous);
+  function cutAt(tree, pos, side) {
+    let cursor = tree.cursor(IterMode.IncludeAnonymous);
     cursor.moveTo(pos);
     for (; ; ) {
       if (!(side < 0 ? cursor.childBefore(pos) : cursor.childAfter(pos)))
@@ -2461,7 +2461,7 @@
               cursor.to - 1,
               pos - 25
               /* Lookahead.Margin */
-            )) : Math.min(tree2.length, Math.max(
+            )) : Math.min(tree.length, Math.max(
               cursor.from + 1,
               pos + 25
               /* Lookahead.Margin */
@@ -2469,7 +2469,7 @@
           if (side < 0 ? cursor.prevSibling() : cursor.nextSibling())
             break;
           if (!cursor.parent())
-            return side < 0 ? 0 : tree2.length;
+            return side < 0 ? 0 : tree.length;
         }
     }
   }
@@ -4267,24 +4267,24 @@
   });
 
   // parser.js
+  var button = document.getElementById("submit-btn");
+  button.addEventListener("click", function() {
+    const userInput = document.getElementById("userInputA");
+    const code = userInput.value;
+    const tree = parser.parse(code);
+    const output = printTree(tree.cursor());
+    const element = document.getElementById("debug-box");
+    element.textContent = output;
+  });
   function printTree(cursor, indent2 = 0) {
-    console.log(" ".repeat(indent2) + cursor.name);
+    let output = "";
+    output += " ".repeat(indent2) + cursor.name + "\n";
     if (cursor.firstChild()) {
       do {
-        printTree(cursor, indent2 + 4);
+        output += printTree(cursor, indent2 + 4);
       } while (cursor.nextSibling());
       cursor.parent();
     }
+    return output;
   }
-  var code = `
-x = 67
-if(x < 69):
-    print(x)
-else:
-    print(38)
-`;
-  var element = document.getElementById("textA");
-  element.textContent = "I have changed.";
-  var tree = parser.parse(code);
-  printTree(tree.cursor());
 })();

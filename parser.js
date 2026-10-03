@@ -1,30 +1,41 @@
 import {parser} from "@lezer/python";
 
-function getUserInput() {
+const button = document.getElementById("submit-btn");
 
-    let userInput = document.getElementById("userInputA")
-    (userInput.value)
+button.addEventListener("click", function() {
 
-}
+    const userInput = document.getElementById("userInputA");
 
+    const code = userInput.value;
+
+    const tree = parser.parse(code);
+
+    const output = printTree(tree.cursor());
+    
+    const element = document.getElementById("debug-box");
+    
+    element.textContent = output;
+});
+
+// Helper function for debugging.
 function printTree(cursor, indent = 0) {
+    let output = "";
 
-    console.log(" ".repeat(indent) + cursor.name);
+    output += " ".repeat(indent) + cursor.name + "\n";
 
-    if(cursor.firstChild()) {
+    if (cursor.firstChild()) {
 
-        do{
-
-            printTree(cursor, indent + 4);
-            
-        } while(cursor.nextSibling());
+        do {
+            output += printTree(cursor, indent + 4);
+        } while (cursor.nextSibling());
 
         cursor.parent();
-        
     }
 
+    return output;
 }
 
+/*
 const code = `
 x = 67
 if(x < 69):
@@ -33,9 +44,8 @@ else:
     print(38)
 `    
 ;
+*/
 
-const element = document.getElementById("textA");
-element.textContent = "I have changed."
 
-const tree = parser.parse(code);
-printTree(tree.cursor());
+// element is a test element
+//printTree(tree.cursor());

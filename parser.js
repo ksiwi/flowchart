@@ -34,5 +34,8 @@ else:
 `    
 ;
 
+const element = document.getElementById("textA");
+element.textContent = "I have changed."
+
 const tree = parser.parse(code);
 printTree(tree.cursor());

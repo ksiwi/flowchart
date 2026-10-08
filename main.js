@@ -1,5 +1,6 @@
 import {parseCode} from "./parser.js";
 import { renderDiagram } from "./render.js";
+import { parseFunctions } from "./functionParser.js";
 
 const button = document.getElementById("submit-btn");
 const userInput = document.getElementById("userInputA");
@@ -20,6 +21,7 @@ button.addEventListener("click", function() {
     const flowchart = document.getElementById("generated-flowchart")
     flowchart.innerHTML = "";
 
+    parseFunctions(userInput.value);
     const output = parseCode(userInput.value);
     // await renderDiagram("generated-flowchart", output)
     // Add above line of code once parser.js can parse code into mermaid diagrams.

@@ -9,6 +9,7 @@
   <script type="importmap">
     {
       "imports": {
+        "mermaid": "https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs",
         "@lezer/python": "https://esm.sh/@lezer/python@1.1.19"
       }
     }
@@ -39,6 +40,11 @@
       -->
 
       <div id="debug-box">DEBUGBOX</div>
+      <div class="mermaid">
+        flowchart TD
+        A[Start] --> B[Hello]
+        B --> C[End]
+      </div>
     </div>
   </div>
   

@@ -12,14 +12,16 @@ let lastParsedInput = null;
 userInput.addEventListener("input", function() {
     clearTimeout(typingTimer);
 
-    typingTimer = setTimeout(function() {
+    typingTimer = setTimeout(async function() {
         const currentInput = userInput.value;
 
         // Only run parseFunctions if the input has changed
         if (currentInput !== lastParsedInput) {
             // ADD MATH THING HERE IF U WANNA TEST MATH THING (replace below line)
-            parseFunctions("display", currentInput);
+            console.log("Input changed:", currentInput);
 
+            await parseCode(currentInput);
+            parseFunctions("function-diagram", currentInput);
             lastParsedInput = currentInput;
         }
 

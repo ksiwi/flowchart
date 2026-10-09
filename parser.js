@@ -1,4 +1,25 @@
 import {parser} from "@lezer/python";
+import { renderDiagram } from "./render.js";
+
+const STATEMENT_TYPES = new Set([
+    "AssignStatement",
+    "AugAssignStatement",
+    "ReturnStatement",
+    "ExpressionStatement",
+    "IfStatement",
+    "ForStatement",
+    "WhileStatement",
+    "WithStatement",
+    "TryStatement",
+    "RaiseStatement",
+    "AssertStatement",
+    "DeleteStatement",
+    "ImportStatement",
+    "ImportFromStatement",
+    "PassStatement",
+    "BreakStatement",
+    "ContinueStatement"
+]);
 
 //Creates a box with text inside it
 function createBox(text) {
@@ -16,30 +37,67 @@ function createBox(text) {
 }
 
 //Parses code
-export function parseCode(code) {
+export async function parseCode(code) {
 
     const tree = parser.parse(code);
-    const lines = [];
-    const cursor = tree.cursor();
+    const nodes = [];
 
-    //Prints the structure of the tree and also runs the createbox to make expression statement boxes
-    function visit(cursor, indent = 0) {
+    function visit(node) {
 
-        const text = code.slice(cursor.from, cursor.to);
-
-        if (cursor.name === "AssignStatement") {
-            createBox(text);
+        if(STATEMENT_TYPES.has(node.name)) {
+            nodes.push({
+                type: node.name,
+                text: code.slice(node.from, node.to).trim()
+            });
         }
 
-        if (cursor.firstChild()) {
-            do {
-                visit(cursor, indent + 4);
-            } while (cursor.nextSibling());
+        for(
 
-            cursor.parent();
+            let child = node.firstChild;
+            child;
+            child = child.nextSibling
+
+        ) {
+
+            visit(child);
+
         }
+
     }
 
-    visit(cursor);
-    return lines.join("\n");
+    visit(tree.topNode);
+
+    let mermaidCode = "flowchart TD\n";
+
+    mermaidCode += 'start(["Start"]) \n';
+
+    nodes.forEach((node, i) => {
+        const id = `n${i}`;
+        const label = node.text.replace(/"/g, "#quot;");
+
+        mermaidCode += `    ${id}["${label}"]\n`;
+    });
+
+    mermaidCode += '    endNode(["End"])\n';
+
+    if(nodes.length === 0) {
+
+        mermaidCode += "    start --> endNode\n";
+
+    } else {
+
+        mermaidCode += "    start --> n0\n";
+
+        for(let i = 0; i < nodes.length - 1; i++) {
+
+            mermaidCode += `    n${i} --> n${i + 1}\n`;
+
+        }
+
+        mermaidCode += `    n${nodes.length - 1} --> endNode\n`;
+
+    }
+
+    await renderDiagram("display", mermaidCode);
+    
 }

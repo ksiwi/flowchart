@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -15,53 +14,32 @@
     }
   </script>
 </head>
-
 <body>
-  <div class="text-container">
-    <textarea id="userInputA" rows="50" cols="80" placeholder="Enter your code here..."></textarea>
+  <main class="text-container">
+    <textarea
+      id="userInputA"
+      rows="50"
+      cols="80"
+      placeholder="Enter your code here..."
+      aria-label="Enter Python code"
+    ></textarea>
 
-    <div class="flowchart">
+    <section class="flowchart" aria-label="Generated diagram">
+      <div id="generated-flowchart"></div>
+      <div id="display">Diagram appears here</div>
 
-      <div id = "generated-flowchart"></div>
-
-      <!--
-      <div class="branch">
-        <div class="flowchart-item">calculate(x)</div>
-      </div>
-      
-      <div class="branch">
-        <div class="flowchart-item">x > 10 ?</div>
-      </div>
-
-      <div class="branch">
-        <div class="flowchart-item">return x * 2</div>
-        <div class="flowchart-item">return x + 2</div>
-      </div>
-      -->
-
-      <div id="display">
-        Diagram appears here
-      </div>
-      <div class="diagram-toolbar">
+      <footer class="diagram-toolbar">
         <label for="diagram-mode">Mode</label>
         <select id="diagram-mode">
-            <option value="functions">Functions</option>
-            <option value="timeline">Timeline</option>
+          <option value="functions">Functions</option>
+          <option value="timeline">Timeline</option>
         </select>
         <div id="time-track">0</div>
-      </div>
-    </div>
-  </div>
-  
-  
-  <!--
-  Uncomment the below code to add back button for bugfixing
+      </footer>
 
-  <button id="submit-btn" class="submit-btn">Submit</button>
-  -->
-  
+    </section>
+  </main>
+
+  <script type="module" src="main.js"></script>
 </body>
-
-<script type="module" src="main.js"></script>
-
 </html>

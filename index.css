@@ -1,4 +1,3 @@
-
 /* Base */
 * {
     box-sizing: border-box;
@@ -13,6 +12,10 @@ body {
     font-family: Consolas, monospace;
     background: #111111;
     color: #e5e5e5;
+}
+
+p {
+    margin: 0;
 }
 
 /* Main layout */
@@ -69,7 +72,6 @@ body {
     background: #111111;
 }
 
-/* Diagram viewport */
 #display {
     flex: 1;
     min-width: 0;
@@ -84,7 +86,6 @@ body {
     color: #666666;
 }
 
-/* Mermaid-generated diagram */
 #display svg {
     display: block;
     max-width: none;
@@ -92,6 +93,7 @@ body {
     margin-inline: auto;
 }
 
+/* Diagram controls */
 .diagram-toolbar {
     display: flex;
     align-items: center;
@@ -121,11 +123,7 @@ body {
     background: transparent;
 }
 
-/* Optional existing elements */
-p {
-    margin: 0;
-}
-
+/* Flowchart elements */
 .branch {
     display: flex;
     gap: 20px;
@@ -141,6 +139,7 @@ p {
     background: #181818;
 }
 
+/* Submit button */
 .submit-btn {
     padding: 10px 16px;
     border: 1px solid #444444;
@@ -178,4 +177,3 @@ p {
         padding: 16px;
     }
 }
-

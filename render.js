@@ -1,6 +1,15 @@
 import mermaid from "mermaid";
 
-mermaid.initialize({ startOnLoad: false });
+mermaid.initialize({
+    startOnLoad: false,
+    theme: "dark",
+    themeVariables: {
+        primaryColor: "#222222",       // Box background
+        primaryTextColor: "#ffffff",   // Text inside boxes
+        primaryBorderColor: "#888888", // Box outline
+        lineColor: "#00bcd4"            // Arrow and line color
+    }
+});
 console.log("Mermaid.js initalized")
 
 // THIS function is really simple

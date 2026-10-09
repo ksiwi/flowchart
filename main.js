@@ -30,6 +30,26 @@ userInput.addEventListener("input", function() {
     }, 100);
 });
 
+userInput.addEventListener("keydown", function(event) {
+    if (event.key === "Tab") {
+        event.preventDefault();
+
+        const start = userInput.selectionStart;
+        const end = userInput.selectionEnd;
+        const indent = "    ";
+
+        // Insert four spaces at the cursor or replace selected text
+        userInput.setRangeText(
+            indent,
+            start,
+            end,
+            "end"
+        );
+
+        // Trigger your existing real-time parser
+        userInput.dispatchEvent(new Event("input", { bubbles: true }));
+    }
+});
 
 // Uncomment the bellow code to add back the submit button if u wanna debug stuff ig
 /*

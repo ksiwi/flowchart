@@ -1,6 +1,6 @@
 import mermaid from "mermaid";
 
-mermaid.initialize({ startOnLoad: true });
+mermaid.initialize({ startOnLoad: false });
 console.log("Mermaid.js initalized")
 
 // THIS function is really simple
@@ -9,10 +9,16 @@ console.log("Mermaid.js initalized")
 // e.g. renderDiagram("DebugBox", code)
 export async function renderDiagram(containerId, code) {
   const element = document.getElementById(containerId);
+  try {
+      const { svg } = await mermaid.render(
+          `svg-${containerId}-${Date.now()}`,
+          code
+      );
+      element.innerHTML = svg;
+
+      console.log(`Diagram rendered in #${containerId}`);
+  } catch (error) {
+      console.error("Mermaid rendering failed:", error);
+  }
   
-  // Example of repetitive mermaid logic
-  const { svg } = await mermaid.render(`svg-${containerId}`, code);
-  element.innerHTML = svg;
-  
-  console.log(`Diagram rendered in #${containerId}`);
 }

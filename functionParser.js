@@ -1,17 +1,13 @@
 import { parser } from "@lezer/python";
 import { renderDiagram } from "./render.js";
 
-export function parseFunctions(code) {
-    // 1. Parse the Python code with Lezer
+export function parseFunctions(containerID, code) {
+    // lezer
     const tree = parser.parse(code);
-
-    // 2. Store the function relationships
     const functions = {};
 
-    // 3. Walk through the Lezer tree
     findFunctions(tree.cursor(), code, functions);
 
-    // 4. Turn the relationships into Mermaid code
     let mermaidCode = "flowchart TD\n";
 
     for (const functionName in functions) {
@@ -20,8 +16,7 @@ export function parseFunctions(code) {
         }
     }
 
-    // 5. Send the Mermaid code to render.js
-    renderDiagram("function-diagram", mermaidCode);
+    renderDiagram(containerID, mermaidCode);
 
     // Useful for debugging
     return mermaidCode;
@@ -43,7 +38,6 @@ function findFunctions(cursor, code, functions) {
 
         const functionName = code.slice(cursor.from, cursor.to);
 
-        // Create an entry for this function
         functions[functionName] = [];
 
         // Move through the function definition

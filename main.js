@@ -1,31 +1,41 @@
 import {parseCode} from "./parser.js";
-import { renderDiagram } from "./render.js";
 import { parseFunctions } from "./functionParser.js";
 
 const button = document.getElementById("submit-btn");
 const userInput = document.getElementById("userInputA");
 const outputElement = document.getElementById("debug-box");
+let typingTimer;
+let lastParsedInput = null;
 
-// Temporary test for mermaid
-const code = `
-    flowchart TD
-        A[main] --> B[hello]
-        B --> C[print]
-        C --> D[hi william]
-    `;
-renderDiagram("generated-flowchart", code);
+// Automatically process code after typing stops
 
-// Main Loop
-button.addEventListener("click", function() {
+userInput.addEventListener("input", function() {
+    clearTimeout(typingTimer);
 
-    const flowchart = document.getElementById("generated-flowchart")
-    flowchart.innerHTML = "";
+    typingTimer = setTimeout(function() {
+        const currentInput = userInput.value;
 
-    parseFunctions(userInput.value);
-    const output = parseCode(userInput.value);
-    // await renderDiagram("generated-flowchart", output)
-    // Add above line of code once parser.js can parse code into mermaid diagrams.
-    console.log(output);
-    outputElement.textContent = output;
+        // Only run parseFunctions if the input has changed
+        if (currentInput !== lastParsedInput) {
+            // ADD MATH THING HERE IF U WANNA TEST MATH THING (replace below line)
+            parseFunctions("display", currentInput);
 
+            lastParsedInput = currentInput;
+        }
+
+        const timeTracker = document.getElementById("time-track")
+        const currentNumber = parseInt(timeTracker.textContent, 10)
+        timeTracker.textContent = currentNumber + 1;
+        
+    }, 100);
 });
+
+
+// Uncomment the bellow code to add back the submit button if u wanna debug stuff ig
+/*
+button.addEventListener("click", function() {
+    parseFunctions("display", userInput.value);
+});
+*/
+
+

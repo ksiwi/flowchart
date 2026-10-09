@@ -6,6 +6,15 @@ const userInput = document.getElementById("userInputA");
 const outputElement = document.getElementById("debug-box");
 let typingTimer;
 let lastParsedInput = null;
+let diagramCase = "functions";
+
+const modeSelector = document.getElementById("diagram-mode");
+modeSelector.addEventListener("change", function() {
+    diagramCase = modeSelector.value;
+    lastParsedInput = null;
+
+    userInput.dispatchEvent(new Event("input"));
+});
 
 // Automatically process code after typing stops
 
@@ -19,9 +28,18 @@ userInput.addEventListener("input", function() {
         if (currentInput !== lastParsedInput) {
             // ADD MATH THING HERE IF U WANNA TEST MATH THING (replace below line)
             console.log("Input changed:", currentInput);
+            switch (diagramCase) {
+                case "functions":
+                    await parseFunctions("display", currentInput);
+                    break;
+                case "timeline":
+                    await parseCode(currentInput);
+                    break;
+            }
+            
 
-            await parseCode(currentInput);
-            parseFunctions("function-diagram", currentInput);
+            
+            
             lastParsedInput = currentInput;
         }
 

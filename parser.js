@@ -67,7 +67,7 @@ export async function parseCode(code) {
 
     visit(tree.topNode);
 
-    let mermaidCode = "flowchart TD\n";
+    let mermaidCode = "flowchart LR\n";
 
     mermaidCode += 'start(["Start"]) \n';
 

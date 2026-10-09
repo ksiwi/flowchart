@@ -51,6 +51,39 @@ userInput.addEventListener("keydown", function(event) {
     }
 });
 
+userInput.addEventListener("keydown", function(event) {
+    if (event.key !== "Enter") return;
+
+    event.preventDefault();
+
+    const cursor = userInput.selectionStart;
+    const textBeforeCursor = userInput.value.slice(0, cursor);
+
+    // Get the current line
+    const lines = textBeforeCursor.split("\n");
+    const currentLine = lines[lines.length - 1];
+
+    // Copy the current line's leading spaces or tabs
+    const indentation = currentLine.match(/^[ \t]*/)[0];
+
+    // Add one indentation level after Python block statements
+    const trimmedLine = currentLine.trimEnd();
+    const extraIndent = trimmedLine.endsWith(":") ? "    " : "";
+
+    const insertion = "\n" + indentation + extraIndent;
+
+    // Insert the newline and indentation at the cursor
+    userInput.setRangeText(
+        insertion,
+        cursor,
+        userInput.selectionEnd,
+        "end"
+    );
+
+    // Trigger your existing real-time parser
+    userInput.dispatchEvent(new Event("input"));
+});
+
 // Uncomment the bellow code to add back the submit button if u wanna debug stuff ig
 /*
 button.addEventListener("click", function() {

@@ -6,20 +6,40 @@ const userInput = document.getElementById("userInputA");
 const outputElement = document.getElementById("debug-box");
 let typingTimer;
 let lastParsedInput = null;
+let diagramCase = "functions";
+
+const modeSelector = document.getElementById("diagram-mode");
+modeSelector.addEventListener("change", function() {
+    diagramCase = modeSelector.value;
+    lastParsedInput = null;
+
+    userInput.dispatchEvent(new Event("input"));
+});
 
 // Automatically process code after typing stops
 
 userInput.addEventListener("input", function() {
     clearTimeout(typingTimer);
 
-    typingTimer = setTimeout(function() {
+    typingTimer = setTimeout(async function() {
         const currentInput = userInput.value;
 
         // Only run parseFunctions if the input has changed
         if (currentInput !== lastParsedInput) {
             // ADD MATH THING HERE IF U WANNA TEST MATH THING (replace below line)
-            parseFunctions("display", currentInput);
+            console.log("Input changed:", currentInput);
+            switch (diagramCase) {
+                case "functions":
+                    await parseFunctions("display", currentInput);
+                    break;
+                case "timeline":
+                    await parseCode(currentInput);
+                    break;
+            }
+            
 
+            
+            
             lastParsedInput = currentInput;
         }
 

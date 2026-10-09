@@ -84,6 +84,32 @@ userInput.addEventListener("keydown", function(event) {
     userInput.dispatchEvent(new Event("input"));
 });
 
+userInput.addEventListener("keydown", function(event) {
+    if (event.key !== "Backspace") return;
+
+    const cursor = userInput.selectionStart;
+    const selectionEnd = userInput.selectionEnd;
+    const textBeforeCursor = userInput.value.slice(0, cursor);
+
+    // Only handle Backspace when there's no selection
+    if (cursor !== selectionEnd) return;
+
+    // Check whether the cursor is after four spaces
+    if (textBeforeCursor.endsWith("    ")) {
+        event.preventDefault();
+
+        userInput.setRangeText(
+            "",
+            cursor - 4,
+            cursor,
+            "end"
+        );
+
+        // Refresh the flowchart
+        userInput.dispatchEvent(new Event("input"));
+    }
+});
+
 // Uncomment the bellow code to add back the submit button if u wanna debug stuff ig
 /*
 button.addEventListener("click", function() {
